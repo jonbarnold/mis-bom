@@ -69,7 +69,7 @@ def main(test=False):
         print()
 
         # probe modules
-        nprobes = prompt_for_positive_integer('How many Probes? ')
+        nprobes = prompt_for_positive_integer('How many Probe Modules? ')
         print()
 
         # camera modules
