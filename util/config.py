@@ -80,6 +80,10 @@ def main(test=False):
         nlasers = prompt_for_positive_integer('How many Laser Modules? ')
         print()
 
+        # maintenance stands
+        nstands = prompt_for_positive_integer('How many Maintenance Stands? ')
+        print()
+
         # arc sliders
         valid = False
         while not valid:
@@ -91,10 +95,6 @@ def main(test=False):
             elif nsliders_raw == 'n':
                 nsliders = prompt_for_positive_integer('How many Arc Sliders? ')
                 valid = True
-        print()
-
-        # maintenance stands
-        nstands = prompt_for_positive_integer('How many Maintenance Stands? ')
         print()
 
     else:
