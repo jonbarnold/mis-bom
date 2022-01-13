@@ -3,9 +3,12 @@
 import sys, os, csv
 
 BOM_DIR = '../bom'
-HEADER_ROW = ['Description', 'Item Type', 'Janelia Part #', 'Manufacturer',
-                'Manufacturer Part #', 'Vendor', 'Vendor Part #',
-                'Quantity Per SubAssy']
+HEADER_ROW_SUBASSY = ['Description', 'Item Type', 'Janelia Part #',
+                        'Manufacturer', 'Manufacturer Part #', 'Vendor',
+                        'Vendor Part #', 'Quantity Per SubAssy']
+HEADER_ROW_OUTPUT = ['Description', 'Item Type', 'Janelia Part #',
+                        'Manufacturer', 'Manufacturer Part #', 'Vendor',
+                        'Vendor Part #', 'Quantity']
 
 
 def prompt_for_positive_integer(prompt):
@@ -30,10 +33,13 @@ def add_subAssy_to_bom(subAssy_filename, bom, num_assys):
     num_assys is the number of subAssy's you wish to add
     """
 
+    if (num_assys == 0):
+        return
+
     with open(subAssy_filename, newline='') as csvfile:
         reader = csv.reader(csvfile)
         header = next(reader)
-        if header != HEADER_ROW:
+        if header != HEADER_ROW_SUBASSY:
             print('%s has inconsistent header row. aborting.', subAssy_filename)
             sys.exit(1)
         next(reader)    # skip spacer row
@@ -46,6 +52,7 @@ def add_subAssy_to_bom(subAssy_filename, bom, num_assys):
                 bom[h][7] = str(quantity_old + quantity_new * num_assys)
             else:
                 bom[h] = row
+                bom[h][7] = str(int(row[7]) * num_assys)
 
 
 def main(test=False):
@@ -134,7 +141,7 @@ def main(test=False):
                             'extension): ')
     with open(filename_output, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(HEADER_ROW)
+        writer.writerow(HEADER_ROW_OUTPUT)
         writer.writerow(['',''])
         for row in bom_total.values():
             writer.writerow(row)
